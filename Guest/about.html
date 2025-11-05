@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | University Event Portal</title>
+
+  <!-- External CSS -->
+  <link href="../Assets/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- Navbar (loaded dynamically with JS) -->
+  <div id="navbar"></div>
+
+  <script>
+    // Load the shared navbar
+    fetch('../Assets/header.html')
+      .then(res => res.text())
+      .then(data => { document.getElementById('navbar').innerHTML = data; })
+      .catch(err => console.error('Error loading navbar:', err));
+  </script>
+
+  <!-- About Header -->
+  <header class="contact-header">
+    <h1>About the University Event Portal</h1>
+    <p>Connecting students, staff, and events in one seamless experience.</p>
+  </header>
+
+  <!-- About Section -->
+  <section class="container my-5">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <img 
+          src="https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=800" 
+          alt="University Campus" 
+          class="img-fluid rounded shadow"
+        />
+      </div>
+      <div class="col-md-6">
+        <h2 class="text-primary fw-bold">Our Mission</h2>
+        <p>
+          The University Event Portal was built to make campus life more connected and accessible.
+          Our goal is to provide an all-in-one platform for students and staff to discover, register for,
+          and organize university events — from workshops and academic fairs to social gatherings and club meetings.
+        </p>
+        <p>
+          We believe in the power of collaboration and engagement. By centralizing event information, 
+          we make it easier for students to explore opportunities and for organizers to reach a wider audience.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="container my-5">
+  <h2 class="text-center text-primary fw-bold mb-4">Meet Our Team</h2>
+  <div class="row g-4">
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm text-center p-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Team Member" class="rounded-circle mx-auto mb-3" style="width: 100px;">
+        <h5 class="fw-bold text-primary">Ayoub Elhaddad</h5>
+        <p class="text-muted">Lead Developer</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm text-center p-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135823.png" alt="Team Member" class="rounded-circle mx-auto mb-3" style="width: 100px;">
+        <h5 class="fw-bold text-primary">Abdullah Fahmi</h5>
+        <p class="text-muted">UI/UX Designer</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm text-center p-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Team Member" class="rounded-circle mx-auto mb-3" style="width: 100px;">
+        <h5 class="fw-bold text-primary">Mohamed Aldarbag</h5>
+        <p class="text-muted">Event Coordinator</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm text-center p-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" alt="Team Member" class="rounded-circle mx-auto mb-3" style="width: 100px;">
+        <h5 class="fw-bold text-primary">Muad Naji</h5>
+        <p class="text-muted">Backend Engineer</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Footer (loaded dynamically with JS) -->
+  <div id="footer"></div>
+
+  <script>
+    // Load the shared footer
+    fetch('../Assets/footer.html')
+      .then(res => res.text())
+      .then(data => { document.getElementById('footer').innerHTML = data; })
+      .catch(err => console.error('Error loading footer:', err));
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
