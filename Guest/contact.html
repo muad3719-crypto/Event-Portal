@@ -8,19 +8,20 @@
 </head>
 
 <body>
-  <!-- 🔹 Navbar -->
+  <!-- Navbar -->
   <header>
     <div id="header"></div>
   </header>
 
-  <!-- 🔹 Header -->
+  <!--  Header -->
   <header class="contact-header">
     <h1 class="fw-bold">Contact Us</h1>
     <p>Have questions or feedback? We’d love to hear from you!</p>
   </header>
 
-  <!-- 🔹 Main Section -->
-  <section class="container">
+  <!-- Main Section -->
+  <main>
+    <section class="container">
     <div class="row g-4">
       
       <!-- Contact Form -->
@@ -45,7 +46,7 @@
         </div>
       </div>
 
-      <!-- Contact Info + Map -->
+      <!-- Contact Info + Address -->
       <div class="col-md-6">
         <div class="contact-card mb-4">
           <h4 class="text-primary mb-3">Contact Information</h4>
@@ -54,7 +55,7 @@
           <p><strong>Address:</strong> 15 July Street, Al-Fuwayhat, Benghazi, Libya</p>
         </div>
 
-        <!-- Google Map -->
+        <!-- Google Maps embedded  -->
         <div class="contact-card p-2">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13586.60768498819!2d20.0619338!3d32.114644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13a8ed05f4208cb3%3A0x9d5b648b6d1a2a7c!2sAl-Fuwayhat%2C%20Benghazi!5e0!3m2!1sen!2sly!4v1696858212345!5m2!1sen!2sly" 
@@ -65,16 +66,17 @@
         </div>
       </div>
     </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- 🔹 Footer -->
+  <!-- Footer -->
   <div id="footer"></div>
 
-  <!-- 🔹 Scripts -->
+  <!-- Bootstrap JS cdn -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // 🔹 Handle contact form submission — open user's mail app
+    // Handle form submission and open mail app
     document.getElementById("contactForm").addEventListener("submit", function(event) {
       event.preventDefault();
 
@@ -94,20 +96,19 @@
       // Open default email app
       window.location.href = mailtoLink;
 
-      // Optional: reset form
-      event.target.reset();
+      
     });
   </script>
 
   <script>
-    // 🔹 Load header dynamically
+    // Fetch header
     fetch("../Assets/header.html")
       .then(response => response.text())
       .then(data => document.getElementById("header").innerHTML = data);
   </script>
 
   <script>
-    // 🔹 Load footer dynamically
+    //  Fetch footer
     fetch('../Assets/footer.html')
       .then(response => response.text())
       .then(data => {
