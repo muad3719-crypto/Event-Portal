@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Appointments</title>
+
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../Assets/Admin.css"/>
+</head>
+
+<body class="p-4">
+  <div class="container">
+    <h2 class="mb-4 text-primary fw-bold"><i class="bi bi-calendar-check"></i> Manage Appointments</h2>
+
+   
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <table class="table table-hover align-middle text-center mb-0">
+          <thead class="table-primary">
+            <tr>
+              <th>Student</th>
+              <th>Event</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+   
+    <div class="card shadow-sm p-4">
+      <h5 class="text-primary mb-3"><i class="bi bi-plus-circle"></i> Add Appointment</h5>
+      <form id="appointmentForm" class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Student</label>
+          <input type="text" id="studentInput" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Event</label>
+          <input type="text" id="eventInput" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date</label>
+          <input type="date" id="dateInput" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Status</label>
+          <select id="statusSelect" class="form-select" required>
+            <option>Pending</option>
+            <option>Approved</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('appointmentForm');
+    const tableBody = document.getElementById('appointmentsBody');
+
+   
+    let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+    renderAppointments();
+
+   
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const student = document.getElementById('studentInput').value.trim();
+      const eventName = document.getElementById('eventInput').value.trim();
+      const date = document.getElementById('dateInput').value;
+      const status = document.getElementById('statusSelect').value;
+
+      if (!student || !eventName || !date) {
+        alert("⚠ Please fill all fields");
+        return;
+      }
+
+      const newAppointment = { student, eventName, date, status };
+      appointments.push(newAppointment);
+
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+      renderAppointments();
+      form.reset();
+    });
+
+   
+    function renderAppointments() {
+      tableBody.innerHTML = "";
+
+      if (appointments.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-muted">No appointments yet</td>
+          </tr>`;
+        return;
+      }
+
+      appointments.forEach((a, i) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${a.student}</td>
+          <td>${a.eventName}</td>
+          <td>${a.date}</td>
+          <td>${badge(a.status)}</td>
+          <td>
+            <button class="btn btn-success btn-sm" onclick="updateStatus(${i}, 'Approved')" title="Approve">
+              <i class="bi bi-check2-circle"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="updateStatus(${i}, 'Rejected')" title="Reject">
+              <i class="bi bi-x-circle"></i>
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="deleteAppointment(${i})" title="Delete">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+
+    function badge(status) {
+      if (status === 'Approved') return `<span class="badge bg-success">Approved</span>`;
+      if (status === 'Rejected') return `<span class="badge bg-danger">Rejected</span>`;
+      return `<span class="badge bg-warning text-dark">Pending</span>`;
+    }
+
+ 
+    function updateStatus(index, newStatus) {
+      appointments[index].status = newStatus;
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+      renderAppointments();
+    }
+
+    
+    function deleteAppointment(index) {
+      if (confirm("Are you sure you want to delete this appointment?")) {
+        appointments.splice(index, 1);
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        renderAppointments();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Halls</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../Assets/Admin.css"/>
+</head>
+<body class="p-4">
+  <div class="container">
+    <h2 class="mb-4 text-primary fw-bold"><i class="bi bi-building"></i> Manage Halls</h2>
+
+    
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <table class="table table-hover align-middle text-center mb-0">
+          <thead class="table-primary">
+            <tr>
+              <th>Hall</th>
+              <th>Capacity</th>
+              <th>Location</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="hallsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    
+    <div class="card shadow-sm p-4">
+      <h5 class="text-primary mb-3"><i class="bi bi-plus-circle"></i> Add New Hall</h5>
+      <form id="hallForm" class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Hall Name</label>
+          <input type="text" id="hallName" class="form-control" required />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Capacity</label>
+          <input type="number" id="capacity" class="form-control" min="1" required />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Location</label>
+          <input type="text" id="location" class="form-control" required />
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Hall</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const hallForm = document.getElementById('hallForm');
+    const hallsBody = document.getElementById('hallsBody');
+
+   
+    let halls = JSON.parse(localStorage.getItem('hallsList') || '[]');
+
+  
+    function renderHalls() {
+      hallsBody.innerHTML = "";
+      if (halls.length === 0) {
+        hallsBody.innerHTML = `<tr><td colspan="4" class="text-muted">No halls available</td></tr>`;
+        return;
+      }
+
+      halls.forEach((h, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${h.name}</td>
+          <td>${h.capacity}</td>
+          <td>${h.location}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" data-action="edit" data-index="${index}">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" data-action="delete" data-index="${index}">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        `;
+        hallsBody.appendChild(tr);
+      });
+    }
+
+    
+    hallForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('hallName').value.trim();
+      const capacity = parseInt(document.getElementById('capacity').value);
+      const location = document.getElementById('location').value.trim();
+
+      if (!name || !location || isNaN(capacity) || capacity <= 0) {
+        alert('⚠ Please fill all fields correctly.');
+        return;
+      }
+
+      halls.push({ name, capacity, location });
+      localStorage.setItem('hallsList', JSON.stringify(halls));
+      renderHalls();
+      hallForm.reset();
+    });
+
+   
+    hallsBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+      const index = btn.dataset.index;
+      const action = btn.dataset.action;
+
+      if (action === 'edit') {
+        const h = halls[index];
+        const newName = prompt('Edit Hall Name:', h.name);
+        const newCap = prompt('Edit Capacity:', h.capacity);
+        const newLoc = prompt('Edit Location:', h.location);
+
+        if (!newName || !newLoc || isNaN(newCap) || newCap <= 0) {
+          alert('⚠ Invalid input. No changes saved.');
+          return;
+        }
+
+        halls[index] = { name: newName.trim(), capacity: parseInt(newCap), location: newLoc.trim() };
+      } 
+      else if (action === 'delete') {
+        if (confirm('Are you sure you want to delete this hall?')) {
+          halls.splice(index, 1);
+        }
+      }
+
+      localStorage.setItem('hallsList', JSON.stringify(halls));
+      renderHalls();
+    });
+
+    
+    renderHalls();
+  </script>
+</body>
+</html>

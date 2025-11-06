@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Pending Appointments</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../Assets/Admin.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="p-4">
+
+  <h2 class="text-primary mb-4"><i class="bi bi-hourglass-split"></i> Pending Appointments</h2>
+
+  <table class="table table-hover align-middle text-center">
+    <thead class="table-warning">
+      <tr>
+        <th>Student Name</th>
+        <th>Event</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="pendingBody"></tbody>
+  </table>
+
+  <script>
+    const tableBody = document.getElementById('pendingBody');
+
+    let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+
+    renderPending();
+
+    function renderPending() {
+      const pending = appointments.filter(a => a.status === 'Pending');
+      tableBody.innerHTML = '';
+
+      if (pending.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" class="text-muted py-3">No pending appointments found</td></tr>`;
+        return;
+      }
+
+      pending.forEach((a, i) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${a.student}</td>
+          <td>${a.eventName}</td>
+          <td>${a.date}</td>
+          <td><span class="badge bg-warning text-dark">${a.status}</span></td>
+          <td>
+            <button class="btn btn-success btn-sm" onclick="updateStatus('${a.student}', 'Approved')">
+              <i class="bi bi-check2-circle"></i> Approve
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="updateStatus('${a.student}', 'Rejected')">
+              <i class="bi bi-x-circle"></i> Reject
+            </button>
+          </td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function updateStatus(studentName, newStatus) {
+      const index = appointments.findIndex(a => a.student === studentName && a.status === 'Pending');
+      if (index !== -1) {
+        appointments[index].status = newStatus;
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        renderPending();
+        alert(`✅ ${studentName}'s appointment marked as ${newStatus}`);
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Events</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../Assets/Admin.css">
+</head>
+
+<body class="p-4">
+  <div class="container">
+    <h2 class="mb-4 text-primary fw-bold"><i class="bi bi-calendar-event"></i> All Events</h2>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <table class="table table-hover align-middle text-center mb-0">
+          <thead class="table-primary">
+            <tr>
+              <th>Event Name</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Participants</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="eventsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card shadow-sm p-4">
+      <h5 class="text-primary mb-3"><i class="bi bi-plus-circle"></i> Add New Event</h5>
+      <form id="eventForm" class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Event Name</label>
+          <input type="text" id="eventName" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date</label>
+          <input type="date" id="eventDate" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Location</label>
+          <input type="text" id="eventLocation" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Participants</label>
+          <input type="number" id="participants" class="form-control" min="1" required>
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('eventForm');
+    const body = document.getElementById('eventsBody');
+
+    let events = JSON.parse(localStorage.getItem('eventsList') || '[]');
+    renderEvents();
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = document.getElementById('eventName').value.trim();
+      const date = document.getElementById('eventDate').value;
+      const location = document.getElementById('eventLocation').value.trim();
+      const participants = parseInt(document.getElementById('participants').value.trim());
+
+      if (!name || !date || !location || !participants || participants < 1) {
+        alert("⚠ Please fill all fields correctly.");
+        return;
+      }
+
+      const newEvent = { name, date, location, participants };
+      events.push(newEvent);
+      localStorage.setItem('eventsList', JSON.stringify(events));
+
+      renderEvents();
+      form.reset();
+    });
+
+    function renderEvents() {
+      body.innerHTML = '';
+      if (events.length === 0) {
+        body.innerHTML = `<tr><td colspan="5" class="text-muted py-3">No events found</td></tr>`;
+        return;
+      }
+
+      events.forEach((e, i) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${e.name}</td>
+          <td>${e.date}</td>
+          <td>${e.location}</td>
+          <td>${e.participants}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="editEvent(${i})"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="deleteEvent(${i})"><i class="bi bi-trash"></i></button>
+          </td>`;
+        body.appendChild(row);
+      });
+    }
+
+    function editEvent(index) {
+      const ev = events[index];
+      const newName = prompt('Edit Event Name:', ev.name)?.trim() || ev.name;
+      const newDate = prompt('Edit Date (YYYY-MM-DD):', ev.date) || ev.date;
+      const newLoc = prompt('Edit Location:', ev.location)?.trim() || ev.location;
+      const newPart = parseInt(prompt('Edit Participants:', ev.participants)) || ev.participants;
+
+      if (newPart < 1) {
+        alert("Participants must be at least 1");
+        return;
+      }
+
+      events[index] = { name: newName, date: newDate, location: newLoc, participants: newPart };
+      localStorage.setItem('eventsList', JSON.stringify(events));
+      renderEvents();
+    }
+
+    function deleteEvent(index) {
+      if (confirm('Are you sure you want to delete this event?')) {
+        events.splice(index, 1);
+        localStorage.setItem('eventsList', JSON.stringify(events));
+        renderEvents();
+      }
+    }
+  </script>
+</body>
+</html>
