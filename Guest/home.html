@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Event Portal</title>
-    
-    <!-- External CSS -->
     <link href="..\Assets\style.css" rel="stylesheet">
 </head>
 <body>
 
+    
     <!-- Navbar -->
-
     <header>
         <div id="header"></div>
     </header>
@@ -26,7 +24,7 @@
 
     
 
-    <!-- Upcoming IT Events -->
+    <!-- Upcoming Events -->
     <section class="container my-5">
         <h2 class="text-center mb-4 text-primary fw-bold">Upcoming IT Events</h2>
         <div class="row g-4">
@@ -75,7 +73,7 @@
     <div id="footer"></div>
 
     <script>
-  // Dynamically load the footer
+  // JS script to load footer
         fetch('../Assets/footer.html')
         .then(response => response.text())
         .then(data => {
@@ -84,6 +82,7 @@
         .catch(error => console.error('Error loading footer:', error));
     </script>
 
+    <!-- JS script to load header -->
     <script>
         fetch("../Assets/header.html")
         .then(response => response.text())

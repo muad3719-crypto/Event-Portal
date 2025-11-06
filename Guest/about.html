@@ -4,23 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us | University Event Portal</title>
-
-  <!-- External CSS -->
   <link href="../Assets/style.css" rel="stylesheet" />
 </head>
 
 <body>
 
-  <!-- Navbar (loaded dynamically with JS) -->
+  <!-- Navbar -->
   <div id="navbar"></div>
-
-  <script>
-    // Load the shared navbar
-    fetch('../Assets/header.html')
-      .then(res => res.text())
-      .then(data => { document.getElementById('navbar').innerHTML = data; })
-      .catch(err => console.error('Error loading navbar:', err));
-  </script>
 
   <!-- About Header -->
   <header class="contact-header">
@@ -53,7 +43,7 @@
     </div>
   </section>
 
-  <!-- Team Section -->
+  <!-- Team info -->
   <section class="container my-5">
   <h2 class="text-center text-primary fw-bold mb-4">Meet Our Team</h2>
   <div class="row g-4">
@@ -92,11 +82,19 @@
 </section>
 
 
-  <!-- Footer (loaded dynamically with JS) -->
+  <!-- Footer -->
   <div id="footer"></div>
 
   <script>
-    // Load the shared footer
+    // Fetch navbar
+    fetch('../Assets/header.html')
+      .then(res => res.text())
+      .then(data => { document.getElementById('navbar').innerHTML = data; })
+      .catch(err => console.error('Error loading navbar:', err));
+  </script>
+
+  <script>
+    // Fetch footer
     fetch('../Assets/footer.html')
       .then(res => res.text())
       .then(data => { document.getElementById('footer').innerHTML = data; })
