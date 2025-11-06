@@ -3,32 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Login / Sign Up</title>
   <link rel="stylesheet" href="../Assets/Admin.css">
 </head>
 <body class="login-page">
 
-  <div class="login-container">
-    <h2>Welcome 👋</h2>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
+  <div class="login-container" id="authContainer">
+    <!-- LOGIN FORM -->
+    <div id="loginBox">
+      <h2>Welcome 👋</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
 
-    <!-- زر مميز لتسجيل الدخول كضيف -->
-    <button id="guestBtn" class="guest-btn">Login as Guest</button>
+      <button id="guestBtn" class="guest-btn">Login as Guest</button>
 
-    <div class="login-footer">
-      <p>© 2025 Event Portal</p>
+      <div class="login-footer">
+        <p>Don’t have an account? 
+          <a href="#" id="showSignup" style="color:#007bff; text-decoration:none; font-weight:500;">Sign up</a>
+        </p>
+        <p>© 2025 Event Portal</p>
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signupBox" style="display: none;">
+      <h2>Create Account 📝</h2>
+      <form id="signupForm">
+        <input type="text" id="newUsername" placeholder="Choose username" required>
+        <input type="password" id="newPassword" placeholder="Choose password" required>
+        <input type="email" id="newEmail" placeholder="Your email (optional)">
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <div class="login-footer">
+        <p>Already have an account? 
+          <a href="#" id="showLogin" style="color:#007bff; text-decoration:none; font-weight:500;">Login</a>
+        </p>
+      </div>
     </div>
   </div>
 
   <script>
     const form = document.getElementById("loginForm");
     const guestBtn = document.getElementById("guestBtn");
+    const signupForm = document.getElementById("signupForm");
 
-    // تسجيل الدخول العادي
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
+    const showSignup = document.getElementById("showSignup");
+    const showLogin = document.getElementById("showLogin");
+
+    // 🌟 تبديل بين login و signup
+    showSignup.addEventListener("click", () => {
+      loginBox.style.display = "none";
+      signupBox.style.display = "block";
+    });
+
+    showLogin.addEventListener("click", () => {
+      signupBox.style.display = "none";
+      loginBox.style.display = "block";
+    });
+
+    // ✅ تسجيل الدخول
     form.addEventListener("submit", function(e) {
       e.preventDefault();
 
@@ -48,10 +87,32 @@
       }
     });
 
-    // تسجيل الدخول كضيف
+    // 👤 تسجيل الدخول كضيف
     guestBtn.addEventListener("click", () => {
       localStorage.setItem("role", "guest");
       window.location.href = "../Guest/home.html";
+    });
+
+    // 🆕 تسجيل حساب جديد
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const newUser = document.getElementById("newUsername").value.trim();
+      const newPass = document.getElementById("newPassword").value.trim();
+      const newEmail = document.getElementById("newEmail").value.trim();
+
+      if (newUser && newPass) {
+        // حفظ بيانات المستخدم بشكل بسيط في localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        users.push({ username: newUser, password: newPass, email: newEmail });
+        localStorage.setItem("users", JSON.stringify(users));
+
+        alert("✅ Account created successfully! You can now login.");
+        signupBox.style.display = "none";
+        loginBox.style.display = "block";
+      } else {
+        alert("⚠ Please fill in all required fields.");
+      }
     });
   </script>
 
