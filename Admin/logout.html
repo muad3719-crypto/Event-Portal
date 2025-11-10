@@ -10,14 +10,12 @@
 
   <div class="box">
     <h2>Logging out...</h2>
-    <p>You will be redirected to the login page shortly.</p>
+    <p>You will be redirected to the login page.</p>
   </div>
 
   <script>
     localStorage.clear();
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 2000);
+    window.location.href = "login.html";
   </script>
 
 </body>
