@@ -13,15 +13,23 @@
   </header>
 
   <div class="container-fluid flex-grow-1">
-    <div class="row flex-nowrap">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse show p-3">
-        <ul class="nav flex-column">
-          <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fas fa-home me-2"></i>Dashboard</a></li>
-          <li class="nav-item"><a href="eventregister.html" class="nav-link"><i class="fas fa-calendar-check me-2"></i>Register for Event</a></li>
-          <li class="nav-item"><a href="eventrequest.html" class="nav-link"><i class="fas fa-plus-circle me-2"></i>Request New Event</a></li>
-          <li class="nav-item"><a href="calendar.html" class="nav-link active"><i class="fas fa-calendar me-2"></i>Calendar</a></li>
-        </ul>
-      </nav>
+  <!-- Toggle button for mobile -->
+  <button class="btn btn-primary d-md-none m-2" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#sidebarMenu">
+    ☰ Menu
+  </button>
+
+  <div class="row">
+    <nav id="sidebarMenu" class="col-12 col-md-3 col-lg-2 d-md-block sidebar collapse p-3">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fas fa-home me-2"></i>Dashboard</a></li>
+        <li class="nav-item"><a href="eventregister.html" class="nav-link"><i class="fas fa-calendar-check me-2"></i>Register for Event</a></li>
+        <li class="nav-item"><a href="eventrequest.html" class="nav-link"><i class="fas fa-plus-circle me-2"></i>Request New Event</a></li>
+        <li class="nav-item"><a href="calendar.html" class="nav-link active"><i class="fas fa-calendar me-2"></i>Calendar</a></li>
+      </ul>
+    </nav>
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 content-area fade-in">
         <h3 class="mb-4">Event Calendar</h3>
